@@ -10,7 +10,7 @@
 
 </div>
 
-NPQsimple is a Dash application to explore, fit, and analyze Ordinary Differential Equations. It supports interactive single-trace fitting (onefit) and batch dataset fits, with optional experiment tracking in MongoDB via Sacred and visualization in Omniboard.
+ModelXplorer is a Dash application to explore, fit, and analyze Ordinary Differential Equations. It supports interactive single-trace fitting (onefit) and batch dataset fits, with optional experiment tracking in MongoDB via Sacred and visualization in Omniboard.
 
 
 ![alt text](figure_papier_webapp.png)
