@@ -1,0 +1,37 @@
+# Exclude local dev artifacts from the Docker build context
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+
+.git/
+.gitignore
+
+# Not needed in image
+test_model/
+README.md
+LICENSE
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Exclude notebooks themselves
+*.ipynb
+
+# Environment files and secrets
+.env
+
+# Editor/IDE settings
+.vscode/
+.idea/
+
+# Build artifacts
+build/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db

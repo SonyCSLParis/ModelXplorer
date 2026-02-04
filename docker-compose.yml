@@ -1,0 +1,59 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: npq_mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-fit_data_test}
+      # Enable auth (set in .env)
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build: .
+    container_name: npqsimple_app
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: ${PORT:-8050}
+      # Toggle app mode: onefit | batch
+      APP_VERSION: ${APP_VERSION:-onefit}
+      OMNIBOARD_DISABLE: "1"
+      MONGO_HOST: mongo
+      MONGO_PORT: "27017"
+      # App connects to Mongo with authentication
+      MONGO_USE_AUTH: "1"
+      MONGO_DB_NAME: ${MONGO_DB:-fit_data_test}
+      # Root-only authentication (admin)
+      MONGO_AUTH_SOURCE: ${MONGO_AUTH_SOURCE:-admin}
+      MONGO_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      # If you use a different DB name than default
+      # MONGO_DB_NAME: ${MONGO_DB:-fit_data_test}
+    ports:
+      - "127.0.0.1:${PORT:-8050}:8050"
+
+  omniboard:
+    image: vivekratnavel/omniboard:latest
+    container_name: npq_omniboard
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - "127.0.0.1:${OMNIBOARD_HOST_PORT:-9000}:9000"
+    # Force authenticated connection to Mongo using root credentials
+    # (avoids Unauthorized errors on Omniboard.Settings when auth is enabled)
+    command: [
+      "--mu",
+      "mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017/${MONGO_DB:-fit_data_test}?authSource=admin"
+    ]
+
+volumes:
+  mongo_data:
+  docker:
