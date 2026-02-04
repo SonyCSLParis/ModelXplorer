@@ -1,6 +1,6 @@
 <div align="center">
 
-# NPQsimple
+# ModelXplorer
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](#)
